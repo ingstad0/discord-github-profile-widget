@@ -16,11 +16,18 @@ Automatically sync your GitHub profile to your Discord Profile Widget every hour
 >
 > Discord Profile Widgets are currently an experimental feature. Follow [Chloe Cinders' Blog Guide](https://chloecinders.com/blog/discord-widgets#displaying-the-widget-on-your-profile) to enable the required Discord experiments, create and publish your widget, and add it to your Discord profile before continuing.
 
+> [!TIP]
+> **Faster Setup Option**
+>
+> To avoid manually creating the widget, setting up the layout, and adding each field, you can use the [Discord-Widgets-Extension](https://github.com/TheCreativeGod/Discord-Widgets-Extension) by TheCreativeGod to import the pre-configured [`widget-config.json`](./imports/widget-config.json) file. See the [Widget Import Guide](./imports/guide.md) for step-by-step instructions.
+
 ### 1. Fork this Repository
 Click the **Fork** button at the top-right of this repository.
 
 ### 2.  Add Widget Fields
-After creating your Discord Profile Widget, add the following fields under **Games -> Widget** in the Discord Developer Portal.
+*(If you followed the [Faster Setup Option](#getting-started), you can skip this step and proceed directly to **Step 3**).*
+
+After creating your Discord Profile Widget, add the following fields under **Games -> Widget** in the [Discord Developer Portal](https://discord.com/developers/applications).
 
 > [!NOTE]
 > For a complete visual guide with screenshots showing how to configure each field in the Discord Developer Portal, please refer to the [docs/images](./docs/images) directory.
@@ -44,7 +51,7 @@ After creating your Discord Profile Widget, add the following fields under **Gam
 | `prs` | Number | Total pull requests |
 
 ### 3. Get Discord Credentials
-1. Go to the [Discord Developer Portal](https://discord.com/developers) and select your app.
+1. Go to the [Discord Developer Portal](https://discord.com/developers/applications) and select your app.
 2. Copy the **Application ID** from General Information. (`DISCORD_APPLICATION_ID`)
 3. Copy your Bot token from the **Bot** tab (click **Reset Token**). (`DISCORD_BOT_TOKEN`)
 4. Click your profile in Discord and click **Copy User ID**. (`DISCORD_USER_ID`) (Note: If this option does not appear, enable **Developer Mode** first in Discord Settings -> Developer).
@@ -99,9 +106,14 @@ After creating your Discord Profile Widget, add the following fields under **Gam
    npm start
    ```
 
+## Troubleshooting                                                                                                                                                               
+
+If you run into any issues during setup or syncing (such as the `APPLICATION_IDENTITY_PROVIDER_USER_ID_MISMATCH` error), please refer to the [Troubleshooting Guide](./docs/troubleshooting.md).
+
 ## Credits
 
-Special thanks to [Chloe Cinders](https://chloecinders.com/blog/discord-widgets#displaying-the-widget-on-your-profile) for documenting Discord Profile Widgets and making this project possible.
+- Special thanks to [Chloe Cinders](https://chloecinders.com/blog/discord-widgets#displaying-the-widget-on-your-profile) for documenting Discord Profile Widgets and making this project possible.
+- Thanks to [TheCreativeGod](https://github.com/TheCreativeGod) for creating [Discord-Widgets-Extension](https://github.com/TheCreativeGod/Discord-Widgets-Extension), which simplifies creating and configuring Discord Profile Widgets.
 
 ## License
 

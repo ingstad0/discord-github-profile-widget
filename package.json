@@ -6,14 +6,11 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
-    "dev:worker": "wrangler dev",
-    "deploy:worker": "wrangler deploy"
+    "dev:worker": "npx wrangler dev",
+    "deploy:worker": "npx wrangler deploy"
   },
   "dependencies": {
     "dotenv": "^16.4.5"
-  },
-  "devDependencies": {
-    "wrangler": "^3.78.0"
   },
   "engines": {
     "node": ">=22.0.0"

@@ -82,6 +82,43 @@ After creating your Discord Profile Widget, add the following fields under **Gam
 3. In the left sidebar under **Workflows**, select **Update Discord Profile Widget**.
 4. On the right side, click the **Run workflow** dropdown and click the green **Run workflow** button to trigger the sync manually.
 
+## Option B: Deploy with Cloudflare Workers (instead of GitHub Actions)
+
+This project can also run as a [Cloudflare Worker](https://workers.cloudflare.com/) with a built-in hourly Cron Trigger, so you don't need to rely on GitHub Actions at all.
+
+> [!IMPORTANT]
+> **Pick one scheduler.** To avoid the widget being updated twice an hour (once by GitHub Actions and once by the Worker), disable the GitHub Actions workflow when using the Worker. No Settings needed — just edit one line at the top of [`.github/workflows/update-widget.yml`](./.github/workflows/update-widget.yml): set `DEFAULT_ENABLED: "false"`. (You can still force a manual run from the Actions tab via the `force_run` input.) Conversely, if you keep GitHub Actions, do not also deploy the Worker. Optionally, a repo variable `GH_ACTIONS_ENABLED` (Settings → Secrets and variables → Actions → Variables) can override the in-file default if you prefer.
+
+### 1. Install Wrangler
+```bash
+npm install
+npm install -D wrangler
+```
+
+### 2. Set Worker Secrets
+The same credentials from [Steps 3–4](#3-get-discord-credentials) are stored as Cloudflare secrets (not GitHub secrets):
+```bash
+wrangler secret put GH_USERNAME
+wrangler secret put GH_PAT
+wrangler secret put DISCORD_APPLICATION_ID
+wrangler secret put DISCORD_USER_ID
+wrangler secret put DISCORD_BOT_TOKEN
+wrangler secret put MANUAL_TRIGGER_TOKEN   # used to protect the manual HTTP trigger
+```
+
+### 3. Deploy
+```bash
+npm run deploy:worker
+```
+The Worker is configured in [`wrangler.toml`](./wrangler.toml) to run hourly via a Cron Trigger (`0 * * * *`). Note that sub-daily cron schedules require a Cloudflare Workers plan that supports them.
+
+### 4. (Optional) Manual Trigger
+The Worker also exposes an HTTP endpoint so you can sync on demand:
+```bash
+curl -H "Authorization: Bearer $MANUAL_TRIGGER_TOKEN" https://<your-worker-subdomain>.workers.dev/
+```
+Set `MANUAL_TRIGGER_TOKEN` to any secret string of your choice (the same value used in the secret above).
+
 ## Local Development
 
 1. Clone and install dependencies:

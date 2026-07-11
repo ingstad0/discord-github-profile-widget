@@ -90,12 +90,10 @@ This project can also run as a [Cloudflare Worker](https://workers.cloudflare.co
 > **Pick one scheduler.** To avoid the widget being updated twice an hour (once by GitHub Actions and once by the Worker), disable the GitHub Actions workflow when using the Worker. No Settings needed — just edit one line at the top of [`.github/workflows/update-widget.yml`](./.github/workflows/update-widget.yml): set `DEFAULT_ENABLED: "false"`. (You can still force a manual run from the Actions tab via the `force_run` input.) Conversely, if you keep GitHub Actions, do not also deploy the Worker. Optionally, a repo variable `GH_ACTIONS_ENABLED` (Settings → Secrets and variables → Actions → Variables) can override the in-file default if you prefer.
 
 ### 1. Install Wrangler (local use only)
-Wrangler is **not** a project dependency (it would bloat the Cloudflare build with native binaries). Use `npx` so it's fetched on demand, or install it globally:
+Wrangler is **not** a project dependency — the Cloudflare build uses its own copy. If you want to deploy locally, install it globally:
 ```bash
-npm install
-npm install -g wrangler   # optional: global install
+npm install -g wrangler
 ```
-The npm scripts already call `npx wrangler`, so you can run `npm run deploy:worker` directly. (If you deploy via Cloudflare's Git integration, the platform runs `wrangler deploy` for you and does not need wrangler installed here.)
 
 ### 2. Set Worker Secrets
 The same credentials from [Steps 3–4](#3-get-discord-credentials) are stored as Cloudflare secrets (not GitHub secrets):
@@ -109,8 +107,9 @@ wrangler secret put MANUAL_TRIGGER_TOKEN   # used to protect the manual HTTP tri
 ```
 
 ### 3. Deploy
+If you connected your repo to Cloudflare via the dashboard, it auto-detects `wrangler.toml` and runs `wrangler deploy` on push. To deploy locally instead:
 ```bash
-npm run deploy:worker
+wrangler deploy
 ```
 The Worker is configured in [`wrangler.toml`](./wrangler.toml) to run hourly via a Cron Trigger (`0 * * * *`). Note that sub-daily cron schedules require a Cloudflare Workers plan that supports them.
 
@@ -142,7 +141,7 @@ Set `MANUAL_TRIGGER_TOKEN` to any secret string of your choice (the same value u
    ```
 3. Run the sync script:
    ```bash
-   npm start
+   npm run dev
    ```
 
 ## Troubleshooting                                                                                                                                                               

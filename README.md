@@ -141,7 +141,7 @@ Set `MANUAL_TRIGGER_TOKEN` to any secret string of your choice (the same value u
    ```
 3. Run the sync script:
    ```bash
-   npm run dev
+   npm start
    ```
 
 ## Troubleshooting                                                                                                                                                               

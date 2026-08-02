@@ -4,7 +4,7 @@ name: Update Discord Profile Widget
 #   "true"  -> run this GitHub Actions workflow
 #   "false" -> disable this workflow and use the Cloudflare Worker instead
 env:
-  DEFAULT_ENABLED: "false"
+  DEFAULT_ENABLED: "true"
 
 on:
   schedule:

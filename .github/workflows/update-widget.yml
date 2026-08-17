@@ -1,8 +1,5 @@
 name: Update Discord Profile Widget
 
-# Default scheduler switch (edit this line, no Settings needed):
-#   "true"  -> run this GitHub Actions workflow
-#   "false" -> disable this workflow and use the Cloudflare Worker instead
 env:
   DEFAULT_ENABLED: "true"
 
@@ -26,9 +23,9 @@ jobs:
           GH_ACTIONS_ENABLED: ${{ vars.GH_ACTIONS_ENABLED }}
         run: |
           FORCE="${{ inputs.force_run }}"
-          VALUE="${GH_ACTIONS_ENABLED}"   # repo variable, if set
+          VALUE="${GH_ACTIONS_ENABLED}"
           if [ -z "$VALUE" ]; then
-            VALUE="${{ env.DEFAULT_ENABLED }}"   # fallback to in-file default
+            VALUE="${{ env.DEFAULT_ENABLED }}"
           fi
           if [ "$FORCE" = "true" ]; then
             VALUE="true"
@@ -42,7 +39,7 @@ jobs:
           if [ "$ENABLED" = "true" ]; then
             echo "GitHub Actions sync is enabled."
           else
-            echo "GitHub Actions sync is disabled (DEFAULT_ENABLED=false). Skipping — use Cloudflare Worker instead."
+            echo "GitHub Actions sync is disabled. Skipping."
           fi
 
       - name: Checkout code
